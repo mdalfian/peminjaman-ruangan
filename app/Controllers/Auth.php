@@ -40,7 +40,7 @@ class Auth extends BaseController
         $this->userModel->register_user($data);
 
         if ($this->db->affectedRows() > 0) {
-            return redirect()->back()->with('success', 'Berhasil Mendaftar');
+            return redirect()->back()->with('success', 'Silahkan Login!');
         } else {
             return redirect()->back()->with('error', 'Gagal Mendaftar');
         }
@@ -68,7 +68,7 @@ class Auth extends BaseController
                 return redirect()->to(base_url('user/home'));
             }
         } else {
-            session()->setFlashdata('alert', 'Email / Password salah');
+            session()->setFlashdata('error', 'Email / Password salah');
             return redirect()->to(base_url('/'));
         }
     }

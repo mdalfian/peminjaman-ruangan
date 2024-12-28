@@ -25,9 +25,9 @@ class AdminGuard implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
-        if (!session()->get('isLoggedIn') && session()->get('role') != 1) {
+        if (session()->get('role') != 1) {
             return redirect()
-                ->to('/')->with('alert', 'Anda Tidak Punya Akses!!!');
+                ->to('/')->with('error', 'Anda Tidak Punya Akses!!!');
         }
     }
 

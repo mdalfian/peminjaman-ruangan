@@ -27,7 +27,7 @@ class AuthGuard implements FilterInterface
     {
         if (!session()->get('isLoggedIn')) {
             return redirect()
-                ->to('/')->with('alert', 'Anda Belum Login!!!');
+                ->to('/')->with('error', 'Anda Belum Login!!!');
         }
     }
 
