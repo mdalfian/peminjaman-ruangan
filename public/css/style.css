@@ -117,6 +117,11 @@ a.sidebar-link {
   margin-right: 0.75rem;
 }
 
+.active {
+  background-color: rgba(255, 255, 255, 0.075);
+  border-left: 3px solid #3b7ddd;
+}
+
 a.sidebar-link:hover {
   background-color: rgba(255, 255, 255, 0.075);
   border-left: 3px solid #3b7ddd;

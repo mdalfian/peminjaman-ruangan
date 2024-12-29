@@ -56,6 +56,7 @@ class Auth extends BaseController
 
         if ($res > 0) {
             $ses_data = array(
+                'id' => $check['user_id'],
                 'email' => $check['email'],
                 'nama' => $check['username'],
                 'role' => $check['role_id'],

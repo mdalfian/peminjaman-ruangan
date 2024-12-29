@@ -25,12 +25,18 @@ class UserModel extends Model
             ->getWhere(['role_id !=' => 1]);
     }
 
+    function get_detail_user($id)
+    {
+        return $this->db->table('users')
+            ->getWhere(['user_id' => $id]);
+    }
+
     function remove_user($id)
     {
         return $this->db->table('users')->delete(['user_id' => $id]);
     }
 
-    function update_user($id, $data)
+    function edit_user($id, $data)
     {
         return $this->db->table('users')->update($data, ['user_id' => $id]);
     }

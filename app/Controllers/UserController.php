@@ -6,7 +6,7 @@ use App\Models\UserModel;
 use CodeIgniter\Controller;
 use Config\Database;
 
-class UserController extends Controller
+class UserController extends BaseController
 {
     protected $userModel;
     protected $db;
@@ -28,7 +28,7 @@ class UserController extends Controller
         }
     }
 
-    public function edit_user($id)
+    public function update_user($id)
     {
         $user = $this->db->table('users')->getWhere(['user_id' => $id])->getRow();
 
@@ -42,7 +42,7 @@ class UserController extends Controller
             'password' => $new_pass == '' ? $old_pass : hash('sha256', $new_pass),
         ];
 
-        $this->userModel->update_user($id, $data);
+        $this->userModel->edit_user($id, $data);
 
         if ($this->db->affectedRows() > 0) {
             return redirect()->back()->with('success', 'Berhasil Edit User');

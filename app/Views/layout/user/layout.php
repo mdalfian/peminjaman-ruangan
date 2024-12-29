@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - <?= $title ?></title>
+    <title><?= $title ?></title>
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
@@ -25,53 +25,40 @@
                     <i class="lni lni-grid-alt"></i>
                 </button>
                 <div class="sidebar-logo">
-                    <a href="<?= base_url('admin/home') ?>">Peminjaman</a>
+                    <a href="<?= base_url('user/home') ?>">Peminjaman</a>
                 </div>
             </div>
             <ul class="sidebar-nav">
-                <li class="sidebar-item <?= $title == 'Home' ? 'active' : '' ?>">
-                    <a href="<?= base_url('admin/home') ?>" class="sidebar-link">
+                <li class="sidebar-item">
+                    <a href="<?= base_url('user/home') ?>" class="sidebar-link">
                         <i class="fa-solid fa-house"></i>
                         <span>Home</span>
                     </a>
                 </li>
-                <li class="sidebar-item <?= $title == 'User' ? 'active' : '' ?>">
-                    <a href="<?= base_url('admin/user') ?>" class="sidebar-link">
-                        <i class="fa-solid fa-user"></i>
-                        <span>User</span>
-                    </a>
-                </li>
-                <li class="sidebar-item <?= $title == 'Ruangan' ? 'active' : '' ?>">
-                    <a href="<?= base_url('admin/room') ?>" class="sidebar-link">
+                <li class="sidebar-item">
+                    <a href="<?= base_url('user/room') ?>" class="sidebar-link">
                         <i class="fa-solid fa-door-open"></i>
                         <span>Ruangan</span>
                     </a>
                 </li>
-                <!-- <li class="sidebar-item <?= $title == 'Peminjaman' ? 'active' : '' ?>">
-                    <a href="<?= base_url('admin/booking') ?>" class="sidebar-link">
+                <li class="sidebar-item">
+                    <a href="<?= base_url('user/booking') ?>" class="sidebar-link">
                         <i class="fa-solid fa-calendar-days"></i>
                         <span>Peminjaman</span>
                     </a>
-                </li> -->
-                <li class="sidebar-item <?= $title == 'Peminjaman' ? 'active' : '' ?>">
+                </li>
+                <li class="sidebar-item">
                     <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
-                        data-bs-target="#booking" aria-expanded="false" aria-controls="booking">
-                        <i class="fa-solid fa-calendar-days"></i>
-                        <span>Peminjaman&nbsp;<span class="badge text-bg-secondary d-none badge-notif"></span></span>
+                        data-bs-target="#auth" aria-expanded="false" aria-controls="auth">
+                        <i class="lni lni-protection"></i>
+                        <span>Auth</span>
                     </a>
-                    <ul id="booking" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                    <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                         <li class="sidebar-item">
-                            <a href="<?= base_url('admin/booking/pending') ?>" class="sidebar-link">Pending&nbsp;<span
-                                    class="badge text-bg-secondary d-none badge-notif"></span></a>
+                            <a href="#" class="sidebar-link">Login</a>
                         </li>
                         <li class="sidebar-item">
-                            <a href="<?= base_url('admin/booking/approved') ?>" class="sidebar-link">Diterima</a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="<?= base_url('admin/booking/rejected') ?>" class="sidebar-link">Ditolak</a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="<?= base_url('admin/booking/report') ?>" class="sidebar-link">Laporan</a>
+                            <a href="#" class="sidebar-link">Register</a>
                         </li>
                     </ul>
                 </li>
@@ -149,19 +136,6 @@
             <script src="<?= base_url('js/script.js') ?>"></script>
             <script>
                 new DataTable('#dataTable');
-                $(document).ready(function() {
-                    $.ajax({
-                        method: 'get',
-                        url: '<?= base_url('admin/get_notification'); ?>',
-                        success: function(result) {
-                            var data = JSON.parse(result);
-                            $('.badge-notif').html(data);
-                            if (data > 0) {
-                                $('.badge-notif').removeClass('d-none');
-                            }
-                        }
-                    })
-                })
 
                 // Hapus User
                 function hapus_user(id) {
@@ -196,46 +170,6 @@
                         }
                     })
                 }
-
-                // Accept Booking
-                function accept(id) {
-                    Swal.fire({
-                        title: 'Apakah anda yakin?',
-                        text: "Anda akan menerima peminjaman!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#14A44D',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Terima'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href = '<?= base_url('admin/booking/accept/') ?>' + id;
-                        }
-                    })
-                }
-
-                // Reject Booking
-                function reject(id) {
-                    Swal.fire({
-                        title: 'Apakah anda yakin?',
-                        text: "Anda akan menolak peminjaman!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#d33',
-                        cancelButtonColor: '#3085d6',
-                        confirmButtonText: 'Tolak'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href = '<?= base_url('admin/booking/reject/') ?>' + id;
-                        }
-                    })
-                }
-
-                // Filter report
-                function filter() {
-                    var form = $('#end_date').closest('form');
-                    form.submit();
-                }
             </script>
 
             <!-- Alert success -->
@@ -255,7 +189,7 @@
             if (session()->has('error')) : ?>
                 <script>
                     Swal.fire({
-                        title: 'Error!',
+                        title: 'Gagal!',
                         text: '<?= session('error') ?>',
                         icon: 'error',
                     })
