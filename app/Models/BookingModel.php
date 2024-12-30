@@ -67,6 +67,28 @@ class BookingModel extends Model
         return $this->db->table('bookings')->getWhere(['book_id' => $id]);
     }
 
+    function get_room_booked()
+    {
+        return $this->db->table('bookings')
+            ->select('*')
+            ->where('DATE(start_time)', 'DATE(now())', FALSE)
+            ->where('status', 'Approved')
+            ->groupBy('room_id')
+            ->get();
+    }
+
+    function get_booking_today()
+    {
+        return $this->db->table('bookings tb1')
+            ->select('*')
+            ->join('users tb2', 'tb1.user_id = tb2.user_id')
+            ->join('rooms tb3', 'tb1.room_id = tb3.room_id')
+            ->where('DATE(start_time)', 'DATE(now())', FALSE)
+            ->where('status', 'Approved')
+            ->orderBy('booking_time ASC')
+            ->get();
+    }
+
     function review_booking($data, $id)
     {
         return $this->db->table('bookings')->update($data, ['book_id' => $id]);
@@ -88,7 +110,14 @@ class BookingModel extends Model
             ->select('tb1.*,tb2.username,tb3.room_name')
             ->join('users tb2', 'tb1.user_id = tb2.user_id')
             ->join('rooms tb3', 'tb1.room_id = tb3.room_id')
-            ->where(array('start_time <=' => '' . $start . '', 'end_time >=' => '' . $start . '', 'tb1.room_id' => $room, 'status' => 'Approved'))
+            ->where('start_time <=', '' . $start . '')
+            ->where('end_time >=', '' . $start . '')
+            ->where('tb1.room_id', $room)
+            ->where('status', 'Approved')
+            ->orWhere('start_time >=', '' . $start . '')
+            ->where('end_time >=', '' . $start . '')
+            ->where('tb1.room_id', $room)
+            ->where('status', 'Approved')
             ->get();
     }
 }

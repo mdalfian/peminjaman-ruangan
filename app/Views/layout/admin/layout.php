@@ -155,8 +155,12 @@
                         url: '<?= base_url('admin/get_notification'); ?>',
                         success: function(result) {
                             var data = JSON.parse(result);
-                            $('.badge-notif').html(data);
-                            if (data > 0) {
+
+                            $('.badge-notif').html(data.pending);
+                            $('.pending-card').html(data.pending);
+                            $('.booked-card').html(data.booked);
+                            $('.available-card').html(data.available);
+                            if (data.pending > 0) {
                                 $('.badge-notif').removeClass('d-none');
                             }
                         }
@@ -236,6 +240,33 @@
                     var form = $('#end_date').closest('form');
                     form.submit();
                 }
+
+                // Reload setiap menit
+                $(document).ready(function() {
+                    setInterval(function() {
+                        $.ajax({
+                            type: "GET",
+                            url: "<?= base_url('admin/booking/today') ?>",
+                            success: function(result) {
+                                $('.todays-book').html(result);
+                            }
+                        });
+                        $.ajax({
+                            method: 'get',
+                            url: '<?= base_url('admin/get_notification'); ?>',
+                            success: function(result) {
+                                var data = JSON.parse(result);
+                                $('.badge-notif').html(data.pending);
+                                $('.pending-card').html(data.pending);
+                                $('.booked-card').html(data.booked);
+                                $('.available-card').html(data.available);
+                                if (data.pending > 0) {
+                                    $('.badge-notif').removeClass('d-none');
+                                }
+                            }
+                        })
+                    }, 60000);
+                });
             </script>
 
             <!-- Alert success -->

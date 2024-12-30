@@ -13,7 +13,7 @@ $routes->get('logout', 'Auth::logout');
 
 $routes->group('admin', static function ($routes) {
     $routes->get('home', 'Admin::index', ['filter' => 'adminGuard']);
-    $routes->get('get_notification', 'Admin::pending_notif', ['filter' => 'adminGuard']);
+    $routes->get('get_notification', 'Admin::notification', ['filter' => 'adminGuard']);
     $routes->get('user', 'Admin::user', ['filter' => 'adminGuard']);
     $routes->get('user/delete/(:any)', 'UserController::delete_user/$1', ['filter' => 'adminGuard']);
     $routes->post('user/update/(:any)', 'UserController::update_user/$1', ['filter' => 'adminGuard']);
@@ -28,6 +28,7 @@ $routes->group('admin', static function ($routes) {
     $routes->post('booking/report', 'Admin::booking_report', ['filter' => 'adminGuard']);
     $routes->get('booking/accept/(:any)', 'BookingController::accept/$1', ['filter' => 'adminGuard']);
     $routes->get('booking/reject/(:any)', 'BookingController::reject/$1', ['filter' => 'adminGuard']);
+    $routes->get('booking/today', 'Admin::booking_today', ['filter' => 'adminGuard']);
 });
 
 $routes->group('user', static function ($routes) {

@@ -24,14 +24,28 @@ class Admin extends BaseController
     {
         $data = [
             'title' => 'Home',
+            'bookings' => $this->bookModel->get_booking_today()->getResult()
         ];
 
         return view('admin/home', $data);
     }
 
-    public function pending_notif()
+    public function booking_today()
     {
-        $notifikasi = $this->bookModel->get_booking('Pending')->getNumRows();
+        $data = [
+            'bookings' => $this->bookModel->get_booking_today()->getResult()
+        ];
+
+        return view('admin/book_today', $data);
+    }
+
+    public function notification()
+    {
+        $notifikasi = [
+            'pending' => $this->bookModel->get_booking('Pending')->getNumRows(),
+            'booked' => $this->bookModel->get_room_booked()->getNumRows(),
+            'available' => $this->roomModel->get_room()->getNumRows()
+        ];
 
         echo json_encode($notifikasi);
     }

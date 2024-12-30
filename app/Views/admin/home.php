@@ -14,7 +14,7 @@
                                 Ruangan Tersedia
                             </h5>
                             <p class="mb-2 fw-bold">
-                                4 Ruangan
+                                <span class="available-card"></span> Ruangan
                             </p>
                         </div>
                     </div>
@@ -26,7 +26,7 @@
                                 Ruangan Dipesan
                             </h5>
                             <p class="mb-2 fw-bold">
-                                2 Ruangan
+                                <span class="booked-card"></span> Ruangan
                             </p>
                         </div>
                     </div>
@@ -38,7 +38,7 @@
                                 Peminjaman Pending
                             </h5>
                             <p class="mb-2 fw-bold">
-                                3 Peminjaman
+                                <span class="pending-card"></span> Peminjaman
                             </p>
                         </div>
                     </div>
@@ -47,35 +47,39 @@
             <h3 class="fw-bold fs-4 my-3">Peminjaman Hari Ini
             </h3>
             <div class="row">
-                <div class="col-12">
-                    <table class="table table-striped table-bordered" id="dataTable">
+                <div class="col-12 todays-book">
+                    <table class="table table-bordered" id="dataTable">
                         <thead>
-                            <tr class="highlight">
-                                <th scope="col">#</th>
-                                <th scope="col">First</th>
-                                <th scope="col">Last</th>
-                                <th scope="col">Handle</th>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama Ruangan</th>
+                                <th>Nama Peminjam</th>
+                                <th>Waktu Peminjaman</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Larry the Bird</td>
-                                <td>@twitter</td>
-                                <td>hoal</td>
-                            </tr>
+                            <?php $no = 1; ?>
+                            <?php foreach ($bookings as $book) : ?>
+                                <tr>
+                                    <td><?= $no++; ?></td>
+                                    <td><?= $book->room_name ?></td>
+                                    <td><?= $book->username ?></td>
+                                    <?php
+                                    date_default_timezone_set('Asia/Jakarta');
+                                    $start = date_create($book->start_time);
+                                    $end = date_create($book->end_time);
+                                    ?>
+                                    <td><?= date_format($start, 'd M Y H:i') ?> - <?= date_format($end, 'd M Y H:i') ?></td>
+                                    <td class="text-center">
+                                        <?php if (date_format($end, 'Y-m-d H:i:s') < date('Y-m-d H:i:s')) : ?>
+                                            <span class="badge text-bg-info">Selesai</span>
+                                        <?php else : ?>
+                                            <span class="badge text-bg-success">Diterima</span>
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>

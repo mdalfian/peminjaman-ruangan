@@ -170,6 +170,13 @@
                         }
                     })
                 }
+
+                // min datepicker
+                function minEndDate(e) {
+                    var currDate = e.target.value;
+                    var date = currDate.replace('T', ' ');
+                    $('#end-time').attr('min', date);
+                }
             </script>
 
             <!-- Alert success -->

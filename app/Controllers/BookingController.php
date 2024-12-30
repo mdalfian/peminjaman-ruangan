@@ -6,9 +6,6 @@ use App\Models\BookingModel;
 use App\Models\UserModel;
 use CodeIgniter\Controller;
 use Config\Database;
-use Config\Services;
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
 
 class BookingController extends BaseController
 {
